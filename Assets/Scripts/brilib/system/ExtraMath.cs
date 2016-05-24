@@ -23,10 +23,10 @@ public static class ExtraMath
     public static float ProgressBoundAroundZero(float input, float max)
     {
         // Get progress in [0,1].
-        float progress = Ratio(input, -max, max);
+        float progress = ProgressBoundAsPercent(input, -max, max);
         // Translate into [-1,1].
         progress = (progress * 2.0f) - 1.0f;
-        return Mathf.Clamp(progress, -1.0f, 1.0f);
+        return progress;
     }
 
 }
