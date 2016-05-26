@@ -4,20 +4,26 @@ using System.Collections;
 public class PlayerControl : Mob
 {
     // These need to match Unity's InputManager.
-    [Tooltip("Name for Horizontal input axis")]
+    [Tooltip("Name for Horizontal movement input axis")]
     public string HorizontalInput = "Horizontal";
-    [Tooltip("Name for Vertical input axis")]
+    [Tooltip("Name for Vertical movement input axis")]
     public string VerticalInput = "Vertical";
     
 
-    void Update()
+    protected void HandleMovementInput()
     {
-        // Retrieve axis information
+        // Retrieve axis information for movement
         float inputX = Input.GetAxis(HorizontalInput);
         float inputY = Input.GetAxis(VerticalInput);
 
         UpdateMovement(inputX, inputY);
     }
+
+    // For basic functionality, add this method to your subclass:
+    //void Update()
+    //{
+    //    HandleMovementInput();
+    //}
 
     // You probably want to override these:
     //void Awake()
