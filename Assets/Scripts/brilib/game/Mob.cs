@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// A moveable object with a max speed and forced movement amounts. Does not
+// obey AddForce.
 public class Mob : MonoBehaviour
 {
     [Tooltip("The speed of the actor")]

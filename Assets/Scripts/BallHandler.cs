@@ -29,9 +29,7 @@ public class BallHandler : MonoBehaviour {
 
     public void RequestShoot(float inputX, float inputY) {
         Debug.Log(string.Format("RequestShoot isBallAttached={0} inputY={1}", isBallAttached, inputY), this);
-        // TODO(dbriscoe): Remove true. It's here because isBallAttached seemed
-        // to always be false. (Even though I'm seeing AttachBall get called!)
-        if (true || isBallAttached) {
+        if (isBallAttached) {
             if (Mathf.Approximately(inputY, 0.0f)) {
                 // If no inputY, then shoot towards opponent's goal.
                 ShootAt(scoreTarget);
@@ -56,7 +54,6 @@ public class BallHandler : MonoBehaviour {
         direction.Normalize();
         direction *= shootingVelocity;
 
-        // TODO: For some reason, nothing happens when I do this.
         ball.GetComponent<Rigidbody2D>().AddForce(direction, ForceMode2D.Impulse);
         Debug.Log(string.Format("ShootAt {0}", direction), target.gameObject);
     }
