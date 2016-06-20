@@ -23,7 +23,7 @@ public class BallHandler : MonoBehaviour {
     {
         // On collision with ball, attach it to ourselves.
         if (collision.gameObject.transform == ball) {
-            AttachBall();
+            AttachBall(collision.gameObject.transform);
         }
     }
 
@@ -47,7 +47,7 @@ public class BallHandler : MonoBehaviour {
 
     private void ShootAt(Transform target)
     {
-        DetachBall();
+        DetachBall(ball.transform);
 
         // launch it at target.
         Vector2 direction = target.position - ball.transform.position;
@@ -58,18 +58,69 @@ public class BallHandler : MonoBehaviour {
         Debug.Log(string.Format("ShootAt {0}", direction), target.gameObject);
     }
 
-    private void AttachBall()
+    private void AttachBall(Transform ballTransform)
     {
+        // TODO: Implement attaching to the player on the side facing their target goal.
         if ( !isBallAttached )
         {
             isBallAttached = true;
+
+            const bool shouldAttach = true;
+            SetupAttachment(transform, ballTransform, shouldAttach);
+
             Debug.Log("AttachBall", this);
         }
     }
 
-    private void DetachBall()
+    private void DetachBall(Transform ballTransform)
     {
-        isBallAttached = false;
+        if (isBallAttached)
+        {
+            isBallAttached = false;
+
+            const bool shouldAttach = false;
+            SetupAttachment(transform, ballTransform, shouldAttach);
+        }
+
         Debug.Log("DetachBall", this);
     }
+
+    private void SetupAttachment(Transform parentTransform, Transform childTransform, bool shouldAttach)
+    {
+        GameObject childObject = childTransform.gameObject;
+
+        // Disable collisions with the object being attached
+        if (childObject.GetComponent<Collider2D>())
+        {
+            childObject.GetComponent<Collider2D>().enabled = !shouldAttach;
+        }
+
+        // Don't allow physics to affect the object
+        if (childObject.GetComponent<Rigidbody2D>())
+        {
+            childObject.GetComponent<Rigidbody2D>().isKinematic = shouldAttach;
+        }
+
+        if (shouldAttach)
+        {
+            // Attach object 1 to object 2
+            childTransform.parent = parentTransform;
+
+            bool isBallOnRight = childTransform.position.x > parentTransform.position.x;
+            bool isGoalOnRight = scoreTarget.position.x > parentTransform.position.x;
+            // If ball is on the wrong side, then flip it.
+            if (isBallOnRight != isGoalOnRight)
+            {
+                Vector2 pos = childObject.transform.localPosition;
+                pos.x *= -1.0f;
+                childObject.transform.localPosition = pos;
+            }
+        }
+        else
+        {
+            // Attach object 1 to object 2
+            childTransform.parent = null;
+        }
+    }
+
 }
