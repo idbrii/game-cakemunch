@@ -16,14 +16,26 @@ public class BallHandler : MonoBehaviour {
     [Tooltip("The speed we throw/shoot the ball.")]
     public float shootingVelocity = 1;
     
+    [Tooltip("Seconds after shooting before we can grab the ball again.")]
+    public float secondsToWaitAfterShootingBeforeBallTouch = 1;
+    [Tooltip("Time when we can grab the ball again.")]
+    private float timeToResumeAcceptingBallTouch = 0;
     
     bool isBallAttached = false;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (Time.time < timeToResumeAcceptingBallTouch)
+        {
+            // We shot the ball too recently. Ignore the touch so we don't
+            // accidentially re-grab while shooting.
+            return;
+        }
+
         // On collision with ball, attach it to ourselves.
         if (collision.gameObject.transform == ball) {
             AttachBall(collision.gameObject.transform);
+            timeToResumeAcceptingBallTouch = Time.time + secondsToWaitAfterShootingBeforeBallTouch;
         }
     }
 
