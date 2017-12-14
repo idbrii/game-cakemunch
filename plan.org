@@ -1,0 +1,19 @@
+* About
+Cakemunch is a minesports game about passing to mirror versions of yourself.
+
+Cakemunch was my idea based on Pyre: you control one player and not the
+  others. But instead of switching on pass, the others are controlled by your
+  opponent.
+
+You and an opponent face off 1 on 1. You can pass up or down to your
+  "teammates" who are always positioned above/below your opponent. Your
+  passes will rebound off the wall in front of your teammate for you to
+  retrieve.
+
+I think there was supposed to be some kind of attack/check move when you
+  don't have the ball.
+
+* Title
+The name comes from lore. I wanted to have you passing a cake around and you
+  needed to feed it to the monster that is the opponent's goal.
+
